@@ -1,100 +1,48 @@
 let comments = [];
 
-
-
-
 loadComments();
 
-let button = document.querySelector("button").onclick = function(){
-    let inputName = document.querySelector(".nameinput");
-    let textareaComments = document.querySelector(".comment");
+let button = (document.querySelector("button").onclick = function () {
+  let inputName = document.querySelector(".nameinput");
+  let textareaComments = document.querySelector(".comment");
 
-    let comment = {
-        name : inputName.value,
-        body : textareaComments.value,
-    }   
-    inputName.value = ' ';
-    textareaComments.value = ' ';
+  let comment = {
+    name: inputName.value,
+    body: textareaComments.value,
+  };
+  inputName.value = " ";
+  textareaComments.value = " ";
 
+  comments.push(checkspam(comment));
+  showComments();
+});
 
-
-   
-    comments.push(comment);
-    showComments();
-    showComments(); 
-    // checkspam(); 
-}
-
-function showComments(){
-    localStorage.setItem('comments',JSON.stringify(comments));
-}
 function loadComments() {
-    if(localStorage.getItem('comments')) comments = JSON.parse(localStorage.getItem('comments'));
-    showComments();
+  if (localStorage.getItem("comments"))
+    comments = JSON.parse(localStorage.getItem("comments"));
+  showComments();
 }
 
+function checkspam(comment) {
+  comment.body = comment.body
+    .replaceAll("viagra", "***")
+    .replaceAll("xxx", "***");
+  comment.name = comment.name
+    .replaceAll("viagra", "***")
+    .replaceAll("xxx", "***");
 
-
-
-
-// function checkspam(){
-//     if(comments.value.includes("xxx") ||
-//     comments.value.includes("viagra")
-//     ){
-//         console.log(jr)
-//         comments.replaceAll("***");
-//     }
-// }
+  return comment;
+}
 
 function showComments() {
-    let resultNode = document.querySelector(".result");
-    let out = '';
-    comments.forEach(function(item){        
-        out += `Имя: ${item.name} <br>`;
-        out += `коммент: ${item.body}<br>`;
-       
-    });
+  localStorage.setItem("comments", JSON.stringify(comments));
 
+  let resultNode = document.querySelector(".result");
+  let out = "";
+  comments.forEach(function (item) {
+    out += `Имя: ${item.name} <br>`;
+    out += `коммент: ${item.body}<br>`;
+  });
 
-resultNode.innerHTML = out.replaceAll("viagra",'***');
-
+  resultNode.innerHTML = out;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
